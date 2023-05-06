@@ -1,21 +1,29 @@
 import { Room, Client } from "colyseus";
-import { MyRoomState } from "./schema/MyRoomState";
+import { MyRoomState} from "./schema/MyRoomState";
 
 export class MyRoom extends Room<MyRoomState> {
 
   onCreate (options: any) {
     this.setState(new MyRoomState());
 
-    this.onMessage("type", (client, message) => {
-      //
-      // handle "type" message
-      //
+    this.onMessage("moveA", (client, data) => {
+      console.log("call on moveA");
+      let currPlayer = this.state.playerA;
+      currPlayer.x = data.position.x;
+      currPlayer.y = data.position.y;
+    });
+
+    this.onMessage("moveB", (client, data) => {
+      console.log("call on moveA");
+      let currPlayer = this.state.playerB;
+      currPlayer.x = data.position.x;
+      currPlayer.y = data.position.y;
     });
 
   }
 
   // Authorize client based on provided options before WebSocket handshake is complete
-  onAuth (client: Client, options: any) { }
+  // onAuth (client: Client, options: any) { }
 
 
   onJoin (client: Client, options: any) {
